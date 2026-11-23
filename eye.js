@@ -58,22 +58,22 @@
   }
 
   function blink(time, center, close, open) {
-    return smooth(center - close, center, time) * (1 - smooth(center + .035, center + open, time));
+    return smooth(center - close, center, time) * (1 - smooth(center, center + open, time));
   }
 
   function sceneAt(time) {
-    const openness = smooth(.66, 1.58, time) * (1 - blink(time, 3.18, .15, .28));
-    const approach = clamp((time - 6.7) / 18.5);
+    const openness = smooth(0, .92, time) * (1 - blink(time, 3.18, .15, .28));
+    const approach = clamp(time / 25.2);
     const braking = Math.max(0, approach - .91);
     const zoomProgress = (approach - braking ** 2 / .18) / .955;
-    const zoom = 13.4 ** (zoomProgress ** 2);
+    const zoom = 13.4 ** (.29 * zoomProgress + .71 * zoomProgress ** 2.6);
     return {
       time, openness, zoom,
       worldReveal: smooth(7.1, 17.6, time),
       glint: 1 - smooth(9, 19, time),
       heartReveal: smooth(13.6, 18.2, time),
       heartSize: (.034 + .368 * smooth(16.2, 25.8, time)) * (1 + .026 * Math.sin(time * 4.2)),
-      fade: smooth(.03, .52, time) * (1 - smooth(27.15, duration, time)),
+      fade: smooth(0, .24, time) * (1 - smooth(27.7, duration, time)),
     };
   }
 
